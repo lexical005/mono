@@ -447,7 +447,11 @@ sub PrepareNDK
 		print "\tCurrently installed = " . $current . "\n";
 
 		# remove the possible '(64-bit)' from the end
-		my @curr_arr = split(' ', $current);
+		# 一個大坑，上面我提到 2016/01/25 官方下載的 Linux 64-bit NDK 版本號為 r10e-rc4 (64-bit)
+		# @curr_arr 卻只以空白分割，$curr_arr[0] 值將是 r10e-rc4，在下一個 if 判斷就會出錯
+		# 如果你也是用 Linux (64-bit) NDK，
+		# 請務必改成 my @curr_arr = split(/\-|\s/, $current); 以分離出 r10e
+		my @curr_arr = split(/\-|\s/, $current);
 		$current = $curr_arr[0];
 		
 		if ($ndk eq $current)
